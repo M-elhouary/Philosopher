@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/05/09 23:54:05 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/05/21 02:43:56 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,31 @@ void initial(t_info_of_each_philo *philos)
 {
     int count;
     
-    count = 0;
+    count = 1;
     while(count < philos->info->number_of_philo)
     {
-        philos[count].ID = count + 1;
+		philos[count].ID = count;
         philos[count].left_fork = count;
-        philos[count].right_fork = count + 1;
+		if(count ==  philos->info->number_of_philo)
+        	philos[count].right_fork = 1;
+		else
+        	philos[count].right_fork = count + 1;
+		count++;
     }
 }
-void routine(void *p)
+void *routine(void *philo)
 {
+    t_philo_info *philo_info;
+	philo_info = (t_philo_info *)philo;
+
+	while(1337)
+	{
+		pthread_mutex_lock(philo_info->philo_info->left_fork);
+		printf("%d  has taken a fork", philo_info->philo_info->ID);
+		pthread_mutex_lock(philo_info->philo_info->right_fork);
+		printf("%d  has taken a fork", philo_info->philo_info->ID);
+		break;
+	}
     
 }
 int main(int ac, char **av)
@@ -66,7 +81,7 @@ int main(int ac, char **av)
     count = 0;
     while(count < info.number_of_philo)
     {
-        pthread_create(&philos->thr, NULL, routine(), NULL);
+        pthread_create(&philos->thr, NULL, routine, &philos[count]);
         count++;
     }
     count = 0;

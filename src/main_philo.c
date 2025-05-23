@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/05/22 03:40:41 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/05/23 03:09:03 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,37 +27,67 @@ void fill_info_of_philo(int ac, char **av, t_philo_info *info_of_phillo)
 
 }
 
-void initial(t_philo_info *philos)
+void initial(t_info_of_each_philo **philos, t_philo_info *info)
 {
-    int count;
     
+    *philos = malloc(sizeof(t_info_of_each_philo) * (info->number_of_philo));
+    
+    int count;
     count = 0;
-    while(count <= philos->number_of_philo)
+    while(count < info->number_of_philo)
     {
-        count++;
-		philos->philo_info[count].ID = count;
-        philos->philo_info[count].left_fork = philos->forks[count];
-		if(count ==  philos->number_of_philo)
-        	philos->philo_info[count].right_fork = philos->forks[0];
+        (*philos)[count].ID = count + 1;
+        (*philos)[count].left_fork = info->forks[count];
+		if(count == info->number_of_philo  - 1)
+        (*philos)[count].right_fork = info->forks[0];
 		else
-        	philos->philo_info[count].right_fork = philos->forks[count + 1];
+        (*philos)[count].right_fork = info->forks[count + 1];
+        count++;
     }
 }
 void *routine(void *philo)
 {
     t_info_of_each_philo *philo_info;
 	philo_info = (t_info_of_each_philo *)philo;
-
-	while(1337)
-	{
-		pthread_mutex_lock(&philo_info->left_fork);
-		printf("%d  has taken a fork\n", philo_info->ID);
-		pthread_mutex_lock(&philo_info->right_fork);
-		printf("%d  has taken a fork\n", philo_info->ID);
-        pthread_mutex_unlock(&philo_info->left_fork);
-        pthread_mutex_unlock(&philo_info->right_fork);
-	}
     
+    pthread_mutex_lock(&philo_info->left_fork);
+    printf("%d  has taken a fork\n", philo_info->ID);
+    pthread_mutex_lock(&philo_info->right_fork);
+    printf("%d  has taken a fork\n", philo_info->ID);
+    pthread_mutex_unlock(&philo_info->left_fork);
+    pthread_mutex_unlock(&philo_info->right_fork);
+	
+    
+}
+
+
+void create_fork(t_philo_info *info)
+{
+    int count;
+    
+    count = 0;
+    info->forks = malloc(sizeof(pthread_mutex_t) * info->number_of_philo);
+    while(count < info->number_of_philo)
+    pthread_mutex_init(&info->forks[count++], NULL);
+    
+}
+
+void creat_join_th(t_info_of_each_philo **philos, t_philo_info *info)
+{
+    int count;
+    
+    count = 0;
+    // printf("%d\n", (*philos)[count].ID );
+    
+    while(count < info->number_of_philo)
+    {
+        pthread_create(&(*philos)[count].thr, NULL, routine, &philos[count]);
+        count++;
+    }
+    count = 0;
+    while(count < info->number_of_philo)
+        pthread_join((*philos)[count++].thr, NULL);
+
 }
 int main(int ac, char **av)
 {
@@ -72,23 +102,12 @@ int main(int ac, char **av)
         return (1);
     }
     fill_info_of_philo(ac, av, &info);
-    philos = malloc(sizeof(t_philo_info) * (info.number_of_philo));
-    info.forks = malloc(sizeof(pthread_mutex_t) * info.number_of_philo);
+    // protection of mutexa , create , join, init ??????
+    create_fork(&info);
+    initial(&philos, &info);
+    creat_join_th(&philos, &info);
+ 
 
-    while(count < info.number_of_philo)
-    {
-        pthread_mutex_init(&info.forks[count++], NULL);
-    }
-    count = 0;
-    while(count < info.number_of_philo)
-    {
-        pthread_create(&philos[count].thr, NULL, routine, &philos[count]);
-        count++;
-    }
-    count = 0;
-    while(count < info.number_of_philo)
-    {
-        pthread_join(philos[count++].thr, NULL);
-    }
+    
     return (0);
 }

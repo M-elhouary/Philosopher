@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:29 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/05/22 01:18:11 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/05/23 01:13:22 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,6 @@
 
 
 
-typedef struct s_philo
-{
-    int ID;
-    pthread_t thr;
-    pthread_mutex_t right_fork;
-    pthread_mutex_t left_fork;
-    
-} t_info_of_each_philo;
 
 
 typedef struct s_info
@@ -42,10 +34,19 @@ typedef struct s_info
     int number_of_philo;
     int number_of_rep;
     pthread_mutex_t *forks;
-    t_info_of_each_philo *philo_info;
 } t_philo_info;
 
 
+
+typedef struct s_philo
+{
+    int ID;
+    pthread_t thr;
+    pthread_mutex_t right_fork;
+    pthread_mutex_t left_fork;
+    
+    t_philo_info *philo_info;
+} t_info_of_each_philo;
 
 
 int is_valide_arg(int num_of_arg, char **arg);

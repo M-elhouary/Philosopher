@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:29 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/05/23 01:13:22 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:31:44 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <sys/time.h>
 
 
 
@@ -44,6 +45,7 @@ typedef struct s_philo
     pthread_t thr;
     pthread_mutex_t right_fork;
     pthread_mutex_t left_fork;
+    long last_meal_time;
     
     t_philo_info *philo_info;
 } t_info_of_each_philo;

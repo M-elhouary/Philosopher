@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/05/26 20:17:56 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/05/26 21:34:51 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void *routine(void *arg)
 
         // Eat
         ph->last_meal_time = get_current_time();
-        now = ph->last_meal_time - ph->genr_info->gen_time_start;
         //check time 
+        now = ph->last_meal_time - ph->genr_info->gen_time_start;
         printf("%ld %d is eating\n", now, ph->ID);
         usleep(ph->genr_info->time_to_eat * 1000);
 

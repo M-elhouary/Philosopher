@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/05/26 01:12:32 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/05/26 20:17:56 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,102 +14,61 @@
 #include "philo_header.h"
 
 
-void fill_info_of_philo(int ac, char **av, t_philo_info *info_of_phillo)
-{
-    
-    info_of_phillo->number_of_philo = ft_atoi(av[1]);
-    info_of_phillo->time_to_die = ft_atoi(av[2]);
-    info_of_phillo->time_to_eat = ft_atoi(av[3]);
-    info_of_phillo->time_to_sleep = ft_atoi(av[4]);
-    info_of_phillo->number_of_rep = -1;
-    if(ac == 6)
-        info_of_phillo->number_of_rep = ft_atoi(av[5]);
 
-}
 
-void initial(t_info_of_each_philo **philos, t_philo_info *info)
+
+void *routine(void *arg)
 {
-    int count;
-    
-    *philos = malloc(sizeof(t_info_of_each_philo) * (info->number_of_philo));
-    if(!*philos)
-        exit(EXIT_FAILURE);
-    count = 0;
-    while(count < info->number_of_philo)
+    t_info_of_each_philo *ph = arg;
+    long now;
+
+    while (1)
     {
-        (*philos)[count].ID = count + 1;
-        (*philos)[count].left_fork = info->forks[count];
-		if(count == info->number_of_philo  - 1)
-        (*philos)[count].right_fork = info->forks[0];
-		else
-        (*philos)[count].right_fork = info->forks[count + 1];
-        count++;
-    }
-}
-void *routine(void *philo)
-{
-    t_info_of_each_philo *philo_info;
-	philo_info = (t_info_of_each_philo *)philo;
-    long start_time;
-    long new;
-    new = get_current_time();
-    start_time = (new - (philo_info->genr_info->gen_time_start ) );
-    
-    while(1317){
-        pthread_mutex_lock(&philo_info->left_fork);
-        printf("%ld %d  has taken a fork\n",start_time, philo_info->ID);
-        pthread_mutex_lock(&philo_info->right_fork);
-        printf("%d  has taken a fork\n", philo_info->ID);
-        philo_info->last_meal_time = get_current_time();
-        printf("%ld %d  has eating\n", philo_info->last_meal_time, philo_info->ID);
-        usleep(philo_info->genr_info->time_to_eat * 1000);
-        pthread_mutex_unlock(&philo_info->left_fork);
-        pthread_mutex_unlock(&philo_info->right_fork);
-    }
-        
-    return NULL;
-}
-
-
-void create_fork(t_philo_info *info)
-{
-    int count;
-    
-    count = 0;
-    info->forks = malloc(sizeof(pthread_mutex_t) * info->number_of_philo);
-    if(!info->forks)
-        exit(EXIT_FAILURE);
-    while(count < info->number_of_philo)
-        pthread_mutex_init(&info->forks[count++], NULL);
-    
-}
-
-
-
-void creat_join_th(t_info_of_each_philo *philos, t_philo_info *info)
-{
-    int count;
-    
-    count = 0;
-    info->gen_time_start = get_current_time();
-    while(count < info->number_of_philo)
-    {
-        philos[count].last_meal_time = get_current_time();
-        if(pthread_create(&philos[count].thr, NULL, routine, &philos[count]) != 0)
+        if (ph->ID % 2 == 0)
         {
-                perror("pthread_create faild");
-                exit(EXIT_FAILURE);
-        }
-            count++;
-    }
-    count = 0;
-    while(count < info->number_of_philo)
-    {
-        pthread_join((philos)[count].thr, NULL);
-            count++;
-    }
+            // Even: right first
+            pthread_mutex_lock(ph->right_fork);
+            now = get_current_time() - ph->genr_info->gen_time_start;
+            printf("%ld %d has taken a fork\n", now, ph->ID);
 
+            pthread_mutex_lock(ph->left_fork);
+            now = get_current_time() - ph->genr_info->gen_time_start;
+            printf("%ld %d has taken a fork\n", now, ph->ID);
+        }
+        else
+        {
+            // Odd: left first
+            pthread_mutex_lock(ph->left_fork);
+            now = get_current_time() - ph->genr_info->gen_time_start;
+            printf("%ld %d has taken a fork\n", now, ph->ID);
+
+            pthread_mutex_lock(ph->right_fork);
+            now = get_current_time() - ph->genr_info->gen_time_start;
+            printf("%ld %d has taken a fork\n", now, ph->ID);
+        }
+
+        // Eat
+        ph->last_meal_time = get_current_time();
+        now = ph->last_meal_time - ph->genr_info->gen_time_start;
+        //check time 
+        printf("%ld %d is eating\n", now, ph->ID);
+        usleep(ph->genr_info->time_to_eat * 1000);
+
+        pthread_mutex_unlock(ph->left_fork);
+        pthread_mutex_unlock(ph->right_fork);
+
+        // Sleep
+        now = get_current_time() - ph->genr_info->gen_time_start;
+        printf("%ld %d is sleeping\n", now, ph->ID);
+        usleep(ph->genr_info->time_to_sleep * 1000);
+
+        // Think
+        now = get_current_time() - ph->genr_info->gen_time_start;
+        printf("%ld %d is thinking\n", now, ph->ID);
+    }
+    return (NULL);
 }
+
 
 int main(int ac, char **av)
 {
@@ -120,14 +79,15 @@ int main(int ac, char **av)
     count = 0;
     if(is_valide_arg(ac, av) == 0)
     {
-        printf("INVALIDE ARGUMENT :(\n");
+        write(2, "Error: INVALIDE ARGUMENT\n", 26);
         return (1);
     }
     fill_info_of_philo(ac, av, &info);
-    create_fork(&info);
+    create_fork(&info, philos);
+    info.gen_time_start = get_current_time();
     initial(&philos, &info);
     creat_join_th(philos, &info);
-    clean_mutex(philos, info);
+    clean_mutex(philos, &info);
     
     return (0);
 }

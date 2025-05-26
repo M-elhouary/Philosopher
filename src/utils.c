@@ -15,16 +15,16 @@ long get_current_time()
     return (millisecond);
 }
 
-void clean_mutex(t_info_of_each_philo *philos, t_philo_info info)
+void clean_mutex(t_info_of_each_philo *philos, t_philo_info *info)
 {
     int index;
 
     index = 0;
-    while(index < info.number_of_philo)
+    while(index < info->number_of_philo)
     {
-        pthread_mutex_destroy(&info.forks[index]);
+        pthread_mutex_destroy(&info->forks[index]);
         index++;
     }
-    free(info.forks);
+    free(info->forks);
     free(philos);
 }

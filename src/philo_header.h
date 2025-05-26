@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:29 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/05/26 00:28:13 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/05/26 20:24:18 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ typedef struct s_philo
 {
     int ID;
     pthread_t thr;
-    pthread_mutex_t right_fork;
-    pthread_mutex_t left_fork;
+    pthread_mutex_t *right_fork;
+    pthread_mutex_t *left_fork;
     long last_meal_time;
     
     t_philo_info *genr_info;
@@ -56,7 +56,11 @@ int is_valide_arg(int num_of_arg, char **arg);
 int ft_atoi(char *s);
 int is_space(char c);
 long get_current_time();
-void clean_mutex(t_info_of_each_philo *philos, t_philo_info info);
+void *routine(void *arg);
+int creat_join_th(t_info_of_each_philo *philos, t_philo_info *info);
+int initial(t_info_of_each_philo **philos, t_philo_info *info);
+void clean_mutex(t_info_of_each_philo *philos, t_philo_info *info);
+int create_fork(t_philo_info *info, t_info_of_each_philo *philo);
 void fill_info_of_philo(int ac, char **av, t_philo_info *info_of_phillo);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/05/24 23:36:17 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/05/26 01:12:32 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,19 @@ void *routine(void *philo)
 {
     t_info_of_each_philo *philo_info;
 	philo_info = (t_info_of_each_philo *)philo;
+    long start_time;
+    long new;
+    new = get_current_time();
+    start_time = (new - (philo_info->genr_info->gen_time_start ) );
     
     while(1317){
         pthread_mutex_lock(&philo_info->left_fork);
-        printf("%d  has taken a fork\n", philo_info->ID);
+        printf("%ld %d  has taken a fork\n",start_time, philo_info->ID);
         pthread_mutex_lock(&philo_info->right_fork);
         printf("%d  has taken a fork\n", philo_info->ID);
-        printf("%d  has eating\n", philo_info->ID);
+        philo_info->last_meal_time = get_current_time();
+        printf("%ld %d  has eating\n", philo_info->last_meal_time, philo_info->ID);
+        usleep(philo_info->genr_info->time_to_eat * 1000);
         pthread_mutex_unlock(&philo_info->left_fork);
         pthread_mutex_unlock(&philo_info->right_fork);
     }
@@ -78,18 +84,22 @@ void create_fork(t_philo_info *info)
     
 }
 
+
+
 void creat_join_th(t_info_of_each_philo *philos, t_philo_info *info)
 {
     int count;
     
     count = 0;
+    info->gen_time_start = get_current_time();
     while(count < info->number_of_philo)
     {
+        philos[count].last_meal_time = get_current_time();
         if(pthread_create(&philos[count].thr, NULL, routine, &philos[count]) != 0)
         {
                 perror("pthread_create faild");
                 exit(EXIT_FAILURE);
-            }
+        }
             count++;
     }
     count = 0;
@@ -100,19 +110,7 @@ void creat_join_th(t_info_of_each_philo *philos, t_philo_info *info)
     }
 
 }
-void clean_mutex(t_info_of_each_philo *philos, t_philo_info info)
-{
-    int index;
 
-    index = 0;
-    while(index < info.number_of_philo)
-    {
-        pthread_mutex_destroy(&info.forks[index]);
-        index++;
-    }
-    free(info.forks);
-    free(philos);
-}
 int main(int ac, char **av)
 {
     t_philo_info info;

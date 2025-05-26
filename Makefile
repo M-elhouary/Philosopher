@@ -5,13 +5,14 @@ CC = cc -g
 FLAGS = -Wall -Wextra -Werror 
 
 SRC = src/check_validation_of_arg.c \
-      src/main_philo.c
+      src/main_philo.c \
+	  src/utils.c
 
 OBJ = $(SRC:.c=.o)
 
-all: $(NAME)
+all:$(NAME)
 
-$(NAME): $(OBJ)
+$(NAME):$(OBJ)
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME)
 
 clean:

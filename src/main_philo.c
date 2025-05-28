@@ -6,15 +6,12 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/05/26 21:34:51 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/05/29 00:23:38 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "philo_header.h"
-
-
-
 
 
 void *routine(void *arg)
@@ -24,6 +21,18 @@ void *routine(void *arg)
 
     while (1)
     {
+    pthread_mutex_lock(&ph->genr_info->death_lock);
+    if (ph->genr_info->philo_died)
+    {
+        pthread_mutex_unlock(&ph->genr_info->death_lock);
+        break;
+    }
+    pthread_mutex_unlock(&ph->genr_info->death_lock);
+
+    if (ph->genr_info->number_of_rep > 0 &&
+        ph->eat_count >= ph->genr_info->number_of_rep &&
+        ph->marked_full == 0)
+        break;
         if (ph->ID % 2 == 0)
         {
             // Even: right first
@@ -48,11 +57,23 @@ void *routine(void *arg)
         }
 
         // Eat
-        ph->last_meal_time = get_current_time();
+        pthread_mutex_lock(&ph->meal_lock);
+        ph->last_meal_time = get_current_time();    
+        pthread_mutex_unlock(&ph->meal_lock);
+
         //check time 
         now = ph->last_meal_time - ph->genr_info->gen_time_start;
         printf("%ld %d is eating\n", now, ph->ID);
         usleep(ph->genr_info->time_to_eat * 1000);
+        ph->eat_count++;
+    if (ph->genr_info->number_of_rep > 0 &&
+            ph->eat_count == ph->genr_info->number_of_rep)
+        {
+            pthread_mutex_lock(&ph->genr_info->full_lock);
+            ph->genr_info->philo_full++;
+            pthread_mutex_unlock(&ph->genr_info->full_lock);
+        }
+
 
         pthread_mutex_unlock(ph->left_fork);
         pthread_mutex_unlock(ph->right_fork);
@@ -84,9 +105,11 @@ int main(int ac, char **av)
     }
     fill_info_of_philo(ac, av, &info);
     create_fork(&info, philos);
+    // get cuurent time
     info.gen_time_start = get_current_time();
     initial(&philos, &info);
     creat_join_th(philos, &info);
+    //monitor(av);
     clean_mutex(philos, &info);
     
     return (0);

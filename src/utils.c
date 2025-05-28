@@ -23,8 +23,12 @@ void clean_mutex(t_info_of_each_philo *philos, t_philo_info *info)
     while(index < info->number_of_philo)
     {
         pthread_mutex_destroy(&info->forks[index]);
+        pthread_mutex_destroy(&philos[index].meal_lock);
         index++;
     }
+    pthread_mutex_destroy(&info->full_lock);
+    pthread_mutex_destroy(&info->death_lock);
+
     free(info->forks);
     free(philos);
 }

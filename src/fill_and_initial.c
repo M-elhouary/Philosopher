@@ -29,23 +29,15 @@ int initial(t_info_of_each_philo **philos, t_philo_info *info)
     while(count < info->number_of_philo)
     {
         (*philos)[count].ID = count + 1;
-        // ??
         (*philos)[count].genr_info      = info;
-        //??
-        (*philos)[count].last_meal_time = info->gen_time_start;
-        pthread_mutex_init(&(*philos)[count].meal_lock, NULL);
-
-        // ??
-        (*philos)[count].marked_full = 0;
-        (*philos)[count].eat_count = 0;
+        // fill last by start 
+       // (*philos)[count].last_meal_time = 0;
         (*philos)[count].left_fork = &info->forks[count];
 		if(count == info->number_of_philo  - 1)
-        (*philos)[count].right_fork = &info->forks[0];
+            (*philos)[count].right_fork = &info->forks[0];
 		else
-        (*philos)[count].right_fork = &info->forks[count + 1];
+            (*philos)[count].right_fork = &info->forks[count + 1];
         count++;
     }
-   
-
     return (0);
 }

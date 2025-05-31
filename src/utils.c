@@ -23,12 +23,45 @@ void clean_mutex(t_info_of_each_philo *philos, t_philo_info *info)
     while(index < info->number_of_philo)
     {
         pthread_mutex_destroy(&info->forks[index]);
-        pthread_mutex_destroy(&philos[index].meal_lock);
         index++;
     }
-    pthread_mutex_destroy(&info->full_lock);
-    pthread_mutex_destroy(&info->death_lock);
-
+    pthread_mutex_destroy(&info->protect_meal);
     free(info->forks);
     free(philos);
+}
+
+
+int get_fork(t_info_of_each_philo *ph)
+{
+
+
+    //t_info_of_each_philo *ph = arg;
+    long now;
+
+
+    if (ph->ID % 2 == 0)
+    {
+        // Even: right first
+        pthread_mutex_lock(ph->right_fork);
+        now = get_current_time() - ph->genr_info->gen_time_start;
+        printf("%ld %d has taken a fork\n", now, ph->ID);
+        pthread_mutex_lock(ph->left_fork);
+        now = get_current_time() - ph->genr_info->gen_time_start;
+        printf("%ld %d has taken a fork\n", now, ph->ID);
+    }
+    else 
+    {
+        // Odd: left first
+        pthread_mutex_lock(ph->left_fork);
+        now = get_current_time() - ph->genr_info->gen_time_start;
+        printf("%ld %d has taken a fork\n", now, ph->ID);
+        if (ph->genr_info->number_of_philo == 1)
+                return 1;
+        pthread_mutex_lock(ph->right_fork);
+        now = get_current_time() - ph->genr_info->gen_time_start;
+        printf("%ld %d has taken a fork\n", now, ph->ID);
+    }
+    pthread_mutex_unlock(ph->left_fork);
+    pthread_mutex_unlock(ph->right_fork);
+    return 0;
 }

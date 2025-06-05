@@ -9,7 +9,8 @@ SRC = src/check_validation_of_arg.c \
 	  src/utils.c\
 	  src/creat.c\
 	  src/fill_and_initial.c\
-	  src/monitor.c
+	  src/monitor.c\
+	  src/simulation.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -1,7 +1,5 @@
 #include "philo_header.h"
 
-
-
  int create_fork(t_philo_info *info, t_info_of_each_philo *philo)
 {
     int count;
@@ -37,7 +35,6 @@ int creat_join_th(t_info_of_each_philo *philos, t_philo_info *info)
                 printf("pthread_create faild");
                 return(1);
         }
-
             count++;
     }
     if(pthread_create(&monitor_thread, NULL, monitor, philos) != 0)
@@ -45,7 +42,6 @@ int creat_join_th(t_info_of_each_philo *philos, t_philo_info *info)
         write(2, "Error: monitor thread failed\n", 30);
         return (1);
     }
-
     count = 0;
     while(count < info->number_of_philo)
     {
@@ -56,4 +52,3 @@ int creat_join_th(t_info_of_each_philo *philos, t_philo_info *info)
         return 1;
     return (0);
 }
-

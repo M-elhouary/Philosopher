@@ -33,11 +33,7 @@ void clean_mutex(t_info_of_each_philo *philos, t_philo_info *info)
 
 int get_fork(t_info_of_each_philo *ph)
 {
-
-
-    //t_info_of_each_philo *ph = arg;
     long now;
-
 
     if (ph->ID % 2 == 0)
     {
@@ -56,12 +52,10 @@ int get_fork(t_info_of_each_philo *ph)
         now = get_current_time() - ph->genr_info->gen_time_start;
         printf("%ld %d has taken a fork\n", now, ph->ID);
         if (ph->genr_info->number_of_philo == 1)
-                return 1;
+            return 1;
         pthread_mutex_lock(ph->right_fork);
         now = get_current_time() - ph->genr_info->gen_time_start;
         printf("%ld %d has taken a fork\n", now, ph->ID);
     }
-    pthread_mutex_unlock(ph->left_fork);
-    pthread_mutex_unlock(ph->right_fork);
     return 0;
 }

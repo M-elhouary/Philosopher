@@ -15,8 +15,8 @@ void *monitor(void *arg)
         i = 0;
         while(i < ph[0].genr_info->number_of_philo)
         {
-            now = get_current_time() - ph->genr_info->gen_time_start;
-            if(now - ph[i].last_meal_time > ph[i].genr_info->time_to_die)
+            now = get_current_time() ;
+            if(now - ph[i].last_meal_time  > ph[i].genr_info->time_to_die)
             { 
                 pthread_mutex_lock(&ph->genr_info->protect_meal);
                       ph->genr_info->end = 1;
@@ -34,15 +34,10 @@ void *monitor(void *arg)
                  pthread_mutex_lock(&ph->genr_info->protect_meal);
                  ph->genr_info->end = 1;
                  pthread_mutex_unlock(&ph->genr_info->protect_meal);
-                
                  return NULL;
              }
         }
         usleep(1000);
     }
     return NULL;
-    
-
-
-
 }

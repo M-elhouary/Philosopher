@@ -34,7 +34,13 @@ void clean_mutex(t_info_of_each_philo *philos, t_philo_info *info)
 int get_fork(t_info_of_each_philo *ph)
 {
     long now;
-
+    pthread_mutex_lock(&ph->genr_info->protect_meal);
+    if (ph->genr_info->end == 1)
+    {
+        pthread_mutex_unlock(&ph->genr_info->protect_meal);
+        return (1);
+    }
+    pthread_mutex_unlock(&ph->genr_info->protect_meal);
     if (ph->ID % 2 == 0)
     {
         // Even: right first

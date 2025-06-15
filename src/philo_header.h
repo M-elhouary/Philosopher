@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:29 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/01 22:48:24 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/15 15:26:16 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int ft_atoi(char *s);
 int is_space(char c);
 long get_current_time();
 void *routine(void *arg);
-void ft_eat(t_info_of_each_philo *ph);
+int ft_eat(t_info_of_each_philo *ph);
 int ft_sleep(t_info_of_each_philo *ph);
 int ft_think(t_info_of_each_philo *ph);
 int get_fork(t_info_of_each_philo *ph);

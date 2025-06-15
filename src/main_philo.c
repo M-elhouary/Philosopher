@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/01 23:13:11 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/15 15:49:50 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 void *routine(void *arg)
 {
-    t_info_of_each_philo *ph = arg;
+    t_info_of_each_philo *ph ;
     long now;
     
-    // if(ph->ID % 2 == 0)
-    //     usleep(1000);
+    ph = arg;
     while (1)
     {
         pthread_mutex_lock(&ph->genr_info->protect_meal);
@@ -28,17 +27,16 @@ void *routine(void *arg)
                 break;
         }
         pthread_mutex_unlock(&ph->genr_info->protect_meal);
-        if(get_fork(ph))
+        if(get_fork(ph) == 1)
             break;
-        // Eat
-        ft_eat(ph);
+        if(ft_eat(ph) == 1)
+            break;
         pthread_mutex_unlock(ph->left_fork);
         pthread_mutex_unlock(ph->right_fork);
-        // Sleep
-    
-        ft_sleep(ph);
-        // Think   
-        ft_think(ph);
+        if(ft_sleep(ph) == 1)
+            break;
+        if(ft_think(ph) == 1)
+            break;
     }
     return (NULL);
 }

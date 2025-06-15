@@ -17,18 +17,13 @@
     return (0);
     
 }
-
-int creat_join_th(t_info_of_each_philo *philos, t_philo_info *info)
+int creat_th(t_info_of_each_philo *philos, t_philo_info *info)
 {
     int count;
-    pthread_t monitor_thread;
-
+    
     count = 0;
-    // time start action of start philo
-    info->gen_time_start = get_current_time();
     while(count < info->number_of_philo)
     {
-        // time eat start of each philo
         philos[count].last_meal_time = get_current_time();
         if(pthread_create(&philos[count].thr, NULL, routine, &philos[count]) != 0)
         {
@@ -37,6 +32,18 @@ int creat_join_th(t_info_of_each_philo *philos, t_philo_info *info)
         }
             count++;
     }
+    return (0);
+}
+
+int creat_join_th(t_info_of_each_philo *philos, t_philo_info *info)
+{
+    int count;
+    pthread_t monitor_thread;
+
+    count = 0;
+    info->gen_time_start = get_current_time();
+    if(creat_th(philos, info) == 1)
+        return (1);
     if(pthread_create(&monitor_thread, NULL, monitor, philos) != 0)
     {
         write(2, "Error: monitor thread failed\n", 30);

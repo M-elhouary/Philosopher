@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:29 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/15 15:26:16 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/15 21:59:31 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int ft_sleep(t_info_of_each_philo *ph);
 int ft_think(t_info_of_each_philo *ph);
 int get_fork(t_info_of_each_philo *ph);
 int creat_join_th(t_info_of_each_philo *philos, t_philo_info *info);
-int initial(t_info_of_each_philo **philos, t_philo_info *info);
+int initial(t_info_of_each_philo *philos, t_philo_info *info);
 void *monitor(void *arg);
 void clean_mutex(t_info_of_each_philo *philos, t_philo_info *info);
 int create_fork(t_philo_info *info, t_info_of_each_philo *philo);

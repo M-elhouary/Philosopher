@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/15 15:49:50 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/15 23:05:05 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void *routine(void *arg)
     long now;
     
     ph = arg;
+    if(ph->ID % 2 == 0)
+        usleep(1500);
     while (1)
     {
         pthread_mutex_lock(&ph->genr_info->protect_meal);
@@ -31,8 +33,6 @@ void *routine(void *arg)
             break;
         if(ft_eat(ph) == 1)
             break;
-        pthread_mutex_unlock(ph->left_fork);
-        pthread_mutex_unlock(ph->right_fork);
         if(ft_sleep(ph) == 1)
             break;
         if(ft_think(ph) == 1)
@@ -54,17 +54,21 @@ int main(int ac, char **av)
         return (1);
     }
     fill_info_of_philo(ac, av, &info);
+    philos = malloc(sizeof(t_info_of_each_philo) * info.number_of_philo);
+        if (!philos)
+            return (free(info.forks), 1);
     if(pthread_mutex_init(&info.protect_meal, NULL) != 0)
     {
         write(2, "Mutex init failed\n", 18);
         return (1);
     }
-    if(create_fork(&info, philos))
-        return (1);
-    if(initial(&philos, &info))
-        return (1);
+    if (create_fork(&info, philos))
+    return (free(info.forks), free(philos), 1);
+    if (initial(philos, &info))
+     return (free(philos), 1);
     if(creat_join_th(philos, &info))
         return (1);
     clean_mutex(philos, &info);
     return 0;
 }
+

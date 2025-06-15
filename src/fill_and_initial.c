@@ -1,8 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fill_and_initial.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/15 21:40:16 by mel-houa          #+#    #+#             */
+/*   Updated: 2025/06/15 22:25:52 by mel-houa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "philo_header.h"
-
-
-
 
 void fill_info_of_philo(int ac, char **av, t_philo_info *info_of_phillo)
 {
@@ -21,26 +30,23 @@ void fill_info_of_philo(int ac, char **av, t_philo_info *info_of_phillo)
 }
 
 
-int initial(t_info_of_each_philo **philos, t_philo_info *info)
+int initial(t_info_of_each_philo  *philos, t_philo_info *info)
 {
     int count;
     
-    *philos = malloc(sizeof(t_info_of_each_philo) * (info->number_of_philo));
-    if(!*philos)
-        return(1);
-    info->full_food  = 0;
+    info->full_food = 0;
     count = 0;
     while(count < info->number_of_philo)
     {
-        (*philos)[count].ID = count + 1;
-         (*philos)[count].eat_count = 0;
-        (*philos)[count].genr_info      = info;
-       (*philos)[count].last_meal_time = 0;
-        (*philos)[count].left_fork = &info->forks[count];
+        (philos)[count].ID = count + 1;
+         (philos)[count].eat_count = 0;
+        (philos)[count].genr_info   = info;
+       (philos)[count].last_meal_time = 0;
+        (philos)[count].left_fork = &info->forks[count];
 		if(count == info->number_of_philo  - 1)
-            (*philos)[count].right_fork = &info->forks[0];
+            (philos)[count].right_fork = &info->forks[0];
 		else
-            (*philos)[count].right_fork = &info->forks[count + 1];
+            (philos)[count].right_fork = &info->forks[count + 1];
         count++;
     }
     return (0);

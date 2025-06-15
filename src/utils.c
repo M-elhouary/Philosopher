@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/15 21:41:52 by mel-houa          #+#    #+#             */
+/*   Updated: 2025/06/15 22:56:04 by mel-houa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "philo_header.h"
 
@@ -29,7 +41,6 @@ void clean_mutex(t_info_of_each_philo *philos, t_philo_info *info)
     free(info->forks);
     free(philos);
 }
-
 
 int get_fork(t_info_of_each_philo *ph)
 {

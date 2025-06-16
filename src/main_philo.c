@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/15 23:05:05 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:18:11 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void *routine(void *arg)
     
     ph = arg;
     if(ph->ID % 2 == 0)
-        usleep(1500);
+        usleep(100);
     while (1)
     {
         pthread_mutex_lock(&ph->genr_info->protect_meal);

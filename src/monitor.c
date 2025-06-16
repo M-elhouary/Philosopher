@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:41:12 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/15 21:41:13 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:17:18 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void *monitor(void *arg)
             return NULL;
         if(fuul_food(ph) == 1)
             return NULL;
-        usleep(1000);
+        // usleep(1000);
     }
     return NULL;
 }

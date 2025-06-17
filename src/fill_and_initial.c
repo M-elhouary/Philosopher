@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:40:16 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/16 14:26:35 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:28:47 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void fill_info_of_philo(int ac, char **av, t_philo_info *info_of_phillo)
     info_of_phillo->time_to_eat = ft_atoi(av[3]);
     info_of_phillo->time_to_sleep = ft_atoi(av[4]);
     info_of_phillo->time_to_think = 0;
-    if(info_of_phillo->number_of_philo % 2 == 1)
+    if(info_of_phillo->number_of_philo % 2)
         info_of_phillo->time_to_think = info_of_phillo->time_to_eat;
     info_of_phillo->number_of_rep = -1;
     if(ac == 6)

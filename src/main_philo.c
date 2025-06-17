@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/16 14:18:11 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:03:59 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void *routine(void *arg)
     long now;
     
     ph = arg;
-    if(ph->ID % 2 == 0)
-        usleep(100);
+    if(ph->ID % 2)
+        usleep(ph->genr_info->time_to_eat);
     while (1)
     {
         pthread_mutex_lock(&ph->genr_info->protect_meal);
@@ -36,7 +36,7 @@ void *routine(void *arg)
         if(ft_sleep(ph) == 1)
             break;
         if(ft_think(ph) == 1)
-            break;
+                 break;
     }
     return (NULL);
 }
@@ -49,23 +49,17 @@ int main(int ac, char **av)
     
     count = 0;
     if(is_valide_arg(ac, av) == 0)
-    {
-        write(2, "Error: INVALIDE ARGUMENT\n", 26);
-        return (1);
-    }
+        return ((write(2, "Error: INVALIDE ARGUMENT\n", 26)),1);
     fill_info_of_philo(ac, av, &info);
     philos = malloc(sizeof(t_info_of_each_philo) * info.number_of_philo);
         if (!philos)
             return (free(info.forks), 1);
     if(pthread_mutex_init(&info.protect_meal, NULL) != 0)
-    {
-        write(2, "Mutex init failed\n", 18);
-        return (1);
-    }
+        return ((write(2, "Mutex init failed\n", 18)),1);
     if (create_fork(&info, philos))
-    return (free(info.forks), free(philos), 1);
+        return (free(info.forks), free(philos), 1);
     if (initial(philos, &info))
-     return (free(philos), 1);
+        return (free(philos), 1);
     if(creat_join_th(philos, &info))
         return (1);
     clean_mutex(philos, &info);

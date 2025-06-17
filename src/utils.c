@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:41:52 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/15 22:56:04 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/16 21:33:34 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int get_fork(t_info_of_each_philo *ph)
         return (1);
     }
     pthread_mutex_unlock(&ph->genr_info->protect_meal);
-    if (ph->ID % 2 == 0)
+    if (ph->ID % 2 == 0 && ph->genr_info->end != 1)
     {
         // Even: right first
         pthread_mutex_lock(ph->right_fork);
@@ -62,17 +62,17 @@ int get_fork(t_info_of_each_philo *ph)
         now = get_current_time() - ph->genr_info->gen_time_start;
         printf("%ld %d has taken a fork\n", now, ph->ID);
     }
-    else 
+    else if(ph->genr_info->end != 1)
     {
         // Odd: left first
         pthread_mutex_lock(ph->left_fork);
         now = get_current_time() - ph->genr_info->gen_time_start;
         printf("%ld %d has taken a fork\n", now, ph->ID);
-        if (ph->genr_info->number_of_philo == 1)
-            return 1;
         pthread_mutex_lock(ph->right_fork);
         now = get_current_time() - ph->genr_info->gen_time_start;
         printf("%ld %d has taken a fork\n", now, ph->ID);
+        if (ph->genr_info->number_of_philo == 1)
+            return 1;
     }
     return 0;
 }

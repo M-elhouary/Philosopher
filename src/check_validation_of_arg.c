@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 23:47:14 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/05/09 00:53:52 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:19:47 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ int is_valide_arg(int num_of_arg, char **arg)
 {
     int count = 1;
     
-        if (num_of_arg == 6 || num_of_arg == 5)
-        {
-            while (count < num_of_arg)
+    if(ft_atoi(arg[1]) == 0)
+        return (0);
+    if (num_of_arg == 6 || num_of_arg == 5)
+    {
+        while (count < num_of_arg)
             {
                 if (ft_atoi(arg[count]) == -1)
                     return (0);

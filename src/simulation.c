@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 22:35:45 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/16 14:36:08 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/16 21:36:54 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int ft_eat(t_info_of_each_philo *ph)
     {
         pthread_mutex_unlock(&ph->genr_info->protect_meal);
         pthread_mutex_unlock(ph->left_fork);
-        pthread_mutex_unlock(ph->right_fork);
+       pthread_mutex_unlock(ph->right_fork);
         return 1;
     }
     pthread_mutex_unlock(&ph->genr_info->protect_meal);
@@ -73,6 +73,6 @@ int  ft_think(t_info_of_each_philo *ph)
     pthread_mutex_unlock(&ph->genr_info->protect_meal);
     now = get_current_time() - ph->genr_info->gen_time_start;
     printf("%ld %d is thinking\n", now, ph->ID);
-    usleep(ph->genr_info->time_to_think * 10);
+    usleep(ph->genr_info->time_to_think * 1000);
     return (0);
 }

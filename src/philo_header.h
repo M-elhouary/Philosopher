@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:29 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/15 21:59:31 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:21:52 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,4 @@ void *monitor(void *arg);
 void clean_mutex(t_info_of_each_philo *philos, t_philo_info *info);
 int create_fork(t_philo_info *info, t_info_of_each_philo *philo);
 void fill_info_of_philo(int ac, char **av, t_philo_info *info_of_phillo);
-
 #endif

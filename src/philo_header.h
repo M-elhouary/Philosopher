@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:29 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/17 16:21:52 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:17:45 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ typedef struct s_info
     int full_food;
     int end;
     pthread_mutex_t protect_meal;
+    pthread_mutex_t protect;
     pthread_mutex_t *forks;
+    pthread_mutex_t protect_printf;
 } t_philo_info;
 
 

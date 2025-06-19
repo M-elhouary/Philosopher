@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:40:16 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/17 14:28:47 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:18:43 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int initial(t_info_of_each_philo  *philos, t_philo_info *info)
     int count;
     
     info->full_food = 0;
+    info->end = 0;
     count = 0;
     while(count < info->number_of_philo)
     {
@@ -49,5 +50,7 @@ int initial(t_info_of_each_philo  *philos, t_philo_info *info)
             (philos)[count].right_fork = &info->forks[count + 1];
         count++;
     }
+    if(pthread_mutex_init(&info->protect_printf, NULL) != 0)
+        return ((write(2, "Mutex init failed\n", 18)),1);
     return (0);
 }

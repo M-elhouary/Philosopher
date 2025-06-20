@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:40:45 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/19 19:09:49 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:59:23 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ int creat_join_th(t_info_of_each_philo *philos, t_philo_info *info)
         return (1);
     }
     count = 0;
+    if(pthread_join(monitor_thread, NULL) != 0)
     while(count < info->number_of_philo)
     {
         pthread_join((philos)[count].thr, NULL);
             count++;
     }
-    if(pthread_join(monitor_thread, NULL) != 0)
         return 1;
     return (0);
 }

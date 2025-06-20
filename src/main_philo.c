@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/19 19:45:05 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/20 21:34:20 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ void *routine(void *arg)
     if(ph->ID % 2)
     {
         
-    pthread_mutex_lock(&ph->genr_info->protect_printf);
-    now = get_current_time() - ph->genr_info->gen_time_start;
-    printf("%ld %d is thinking\n", now, ph->ID);
-    pthread_mutex_unlock(&ph->genr_info->protect_printf);
+    // pthread_mutex_lock(&ph->genr_info->protect_printf);
+    // now = get_current_time() - ph->genr_info->gen_time_start;
+    // printf("%ld %d is thinking\n", now, ph->ID);
+    // pthread_mutex_unlock(&ph->genr_info->protect_printf);
+        ft_print(ph, "thinking");
         usleep(ph->genr_info->time_to_eat );
     }
     while (1)

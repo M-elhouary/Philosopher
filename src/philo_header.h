@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:29 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/20 18:15:30 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/26 22:03:21 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <sys/time.h>
-
 
 typedef struct s_info
 {

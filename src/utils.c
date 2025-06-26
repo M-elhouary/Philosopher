@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:41:52 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/20 19:33:30 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/26 21:39:28 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,18 @@
 void ft_print(t_info_of_each_philo *ph, char *s)
 {
     long now;
-   pthread_mutex_lock(&ph->genr_info->protect_meal);
-   now = ph->last_meal_time - ph->genr_info->gen_time_start;
-   pthread_mutex_unlock(&ph->genr_info->protect_meal);
+ 
+
+     pthread_mutex_lock(&ph->genr_info->protect);
+    if (ph->genr_info->end == 1)
+    {
+        pthread_mutex_unlock(&ph->genr_info->protect);
+        return;
+    }
+    pthread_mutex_unlock(&ph->genr_info->protect);
+    
    pthread_mutex_lock(&ph->genr_info->protect_printf);
+   now = ph->last_meal_time - ph->genr_info->gen_time_start;
    printf("%ld %d %s\n", now, ph->ID, s);
    pthread_mutex_unlock(&ph->genr_info->protect_printf);
 }
@@ -70,43 +78,18 @@ int get_fork(t_info_of_each_philo *ph)
         // Even: right first
         pthread_mutex_lock(ph->right_fork);
         ft_print(ph, "has taken a fork");
-        // now = get_current_time() - ph->genr_info->gen_time_start;
-        
-        // pthread_mutex_lock(&ph->genr_info->protect_printf);
-        // printf("%ld %d has taken a fork\n", now, ph->ID);
-        // pthread_mutex_unlock(&ph->genr_info->protect_printf);
-        
         pthread_mutex_lock(ph->left_fork);
-     //   ft_print(ph, "has taken a fork");
-        
-        now = get_current_time() - ph->genr_info->gen_time_start;
-        
-        pthread_mutex_lock(&ph->genr_info->protect_printf);
-        printf("%ld %d has taken a fork\n", now, ph->ID);
-        pthread_mutex_unlock(&ph->genr_info->protect_printf);
+        ft_print(ph, "has taken a fork");
     }
     else
     {
         // Odd: left first
         pthread_mutex_lock(ph->left_fork);
         ft_print(ph, "has taken a fork");
-        
-        // now = get_current_time() - ph->genr_info->gen_time_start;
-        
-        // pthread_mutex_lock(&ph->genr_info->protect_printf);
-        // printf("%ld %d has taken a fork\n", now, ph->ID);
-        // pthread_mutex_unlock(&ph->genr_info->protect_printf);
-        
         if (ph->genr_info->number_of_philo == 1)
            return (pthread_mutex_unlock(ph->left_fork),1);
-        
         pthread_mutex_lock(ph->right_fork);
-        ft_print(ph, "has taken a fork");
-        // now = get_current_time() - ph->genr_info->gen_time_start;
-        
-        // pthread_mutex_lock(&ph->genr_info->protect_printf);
-        // printf("%ld %d has taken a fork\n", now, ph->ID);
-        // pthread_mutex_unlock(&ph->genr_info->protect_printf);      
+        ft_print(ph, "has taken a fork");     
     }
     return 0;
 }

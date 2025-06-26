@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:40:16 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/17 21:18:43 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/26 21:56:30 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int initial(t_info_of_each_philo  *philos, t_philo_info *info)
         (philos)[count].ID = count + 1;
          (philos)[count].eat_count = 0;
         (philos)[count].genr_info   = info;
-       (philos)[count].last_meal_time = 0;
+       (philos)[count].last_meal_time = get_current_time();
         (philos)[count].left_fork = &info->forks[count];
 		if(count == info->number_of_philo  - 1)
             (philos)[count].right_fork = &info->forks[0];
@@ -51,6 +51,10 @@ int initial(t_info_of_each_philo  *philos, t_philo_info *info)
         count++;
     }
     if(pthread_mutex_init(&info->protect_printf, NULL) != 0)
+        return ((write(2, "Mutex init failed\n", 18)),1);
+    if(pthread_mutex_init(&info->protect_meal, NULL) != 0)
+        return ((write(2, "Mutex init failed\n", 18)),1);
+    if(pthread_mutex_init(&info->protect, NULL) != 0)
         return ((write(2, "Mutex init failed\n", 18)),1);
     return (0);
 }

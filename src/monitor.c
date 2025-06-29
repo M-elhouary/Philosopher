@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:41:12 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/26 22:20:14 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:43:57 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,18 @@
 
 int fuul_food(t_info_of_each_philo *ph)
 {
-        if(ph->genr_info->number_of_rep > 0)
-        {    pthread_mutex_lock(&ph->genr_info->protect_meal);
-            if(ph->genr_info->full_food == ph->genr_info->number_of_philo)
-            {
-                 pthread_mutex_lock(&ph->genr_info->protect);
-                 ph->genr_info->end = 1;
-                 pthread_mutex_unlock(&ph->genr_info->protect);
-                 return (1);
-             }
-              pthread_mutex_unlock(&ph->genr_info->protect_meal);
-        }
+if(ph->genr_info->number_of_rep > 0) {
+    pthread_mutex_lock(&ph->genr_info->protect_meal);
+    if(ph->genr_info->full_food == ph->genr_info->number_of_philo) {
+        pthread_mutex_lock(&ph->genr_info->protect);
+        ph->genr_info->end = 1;
+        pthread_mutex_unlock(&ph->genr_info->protect);
+        pthread_mutex_unlock(&ph->genr_info->protect_meal);
+        return (1);
+    }
+    else
+        pthread_mutex_unlock(&ph->genr_info->protect_meal);
+}
     return (0);
 }
 
@@ -41,6 +42,7 @@ int check_time_die(int i, t_info_of_each_philo *ph)
             now = get_current_time() ;
             if(now - ph[i].last_meal_time  > ph[i].genr_info->time_to_die)
             { 
+                pthread_mutex_unlock(&ph->genr_info->protect_meal);
                 pthread_mutex_lock(&ph->genr_info->protect);
                 ph->genr_info->end = 1;
                 pthread_mutex_unlock(&ph->genr_info->protect);
@@ -50,9 +52,9 @@ int check_time_die(int i, t_info_of_each_philo *ph)
                 printf("%ld %d die\n", time_stamp, ph[i].ID);
                 pthread_mutex_unlock(&ph->genr_info->protect_printf);
                 
-                return (pthread_mutex_unlock(&ph->genr_info->protect_meal), 1);
+                return (1);
             }
-               //pthread_mutex_unlock(&ph->genr_info->protect_printf);
+            else
                 pthread_mutex_unlock(&ph->genr_info->protect_meal);
 
             // unlock

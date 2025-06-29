@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/26 21:24:26 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:45:17 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,8 @@ void *routine(void *arg)
     }
     while (1)
     {
-        pthread_mutex_lock(&ph->genr_info->protect);
-        if (ph->genr_info->end == 1)
-        {
-            pthread_mutex_unlock(&ph->genr_info->protect);
-                break;
-        }
-        pthread_mutex_unlock(&ph->genr_info->protect);
+        if(is_die(ph) == 1)
+            break;
         if(get_fork(ph) == 1)
             break;
         if(ft_eat(ph) == 1)
@@ -73,4 +68,3 @@ int main(int ac, char **av)
     clean_mutex(philos, &info);
     return 0;
 }
-

@@ -6,29 +6,36 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:41:52 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/26 21:39:28 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/29 18:25:52 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "philo_header.h"
 
+int is_die(t_info_of_each_philo *ph)
+{
+    int end_flag;
+    
+    pthread_mutex_lock(&ph->genr_info->protect);
+    end_flag = ph->genr_info->end;
+    pthread_mutex_unlock(&ph->genr_info->protect);
+    
+    return end_flag;
+}
+
 
 void ft_print(t_info_of_each_philo *ph, char *s)
 {
     long now;
  
-
-     pthread_mutex_lock(&ph->genr_info->protect);
-    if (ph->genr_info->end == 1)
+    if(is_die(ph))
     {
-        pthread_mutex_unlock(&ph->genr_info->protect);
+        
         return;
     }
-    pthread_mutex_unlock(&ph->genr_info->protect);
-    
    pthread_mutex_lock(&ph->genr_info->protect_printf);
-   now = ph->last_meal_time - ph->genr_info->gen_time_start;
+   now = get_current_time() - ph->genr_info->gen_time_start;
    printf("%ld %d %s\n", now, ph->ID, s);
    pthread_mutex_unlock(&ph->genr_info->protect_printf);
 }
@@ -66,13 +73,17 @@ void clean_mutex(t_info_of_each_philo *philos, t_philo_info *info)
 int get_fork(t_info_of_each_philo *ph)
 {
     long now;
-    pthread_mutex_lock(&ph->genr_info->protect);
-    if (ph->genr_info->end == 1)
-    {
-        pthread_mutex_unlock(&ph->genr_info->protect);
+    if(is_die(ph))
         return (1);
+    if (ph->genr_info->number_of_philo == 1)
+    {
+        pthread_mutex_lock(ph->left_fork);
+        ft_print(ph, "has taken a fork");
+        while (1) {
+            if(is_die(ph))
+                return (1);
+        }
     }
-    pthread_mutex_unlock(&ph->genr_info->protect);
     if (ph->ID % 2 == 0)
     {
         // Even: right first
@@ -86,8 +97,6 @@ int get_fork(t_info_of_each_philo *ph)
         // Odd: left first
         pthread_mutex_lock(ph->left_fork);
         ft_print(ph, "has taken a fork");
-        if (ph->genr_info->number_of_philo == 1)
-           return (pthread_mutex_unlock(ph->left_fork),1);
         pthread_mutex_lock(ph->right_fork);
         ft_print(ph, "has taken a fork");     
     }

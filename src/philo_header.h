@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:29 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/26 22:03:21 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:09:41 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_philo
     t_philo_info *genr_info;
 } t_info_of_each_philo;
 
-
+int is_die(t_info_of_each_philo *ph);
 int is_valide_arg(int num_of_arg, char **arg);
 int ft_atoi(char *s);
 int is_space(char c);

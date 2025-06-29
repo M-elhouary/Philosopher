@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:40:45 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/20 18:59:23 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:08:52 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ int creat_th(t_info_of_each_philo *philos, t_philo_info *info)
     count = 0;
     while(count < info->number_of_philo)
     {
+        pthread_mutex_lock(&info->protect_meal);
         philos[count].last_meal_time = get_current_time();
+        pthread_mutex_unlock(&info->protect_meal);
+
         if(pthread_create(&philos[count].thr, NULL, routine, &philos[count]) != 0)
         {
                 printf("pthread_create faild");
@@ -45,7 +48,6 @@ int creat_th(t_info_of_each_philo *philos, t_philo_info *info)
     }
     return (0);
 }
-
 int creat_join_th(t_info_of_each_philo *philos, t_philo_info *info)
 {
     int count;
@@ -55,18 +57,27 @@ int creat_join_th(t_info_of_each_philo *philos, t_philo_info *info)
     info->gen_time_start = get_current_time();
     if(creat_th(philos, info) == 1)
         return (1);
+    usleep(1000);
     if(pthread_create(&monitor_thread, NULL, monitor, philos) != 0)
     {
         write(2, "Error: monitor thread failed\n", 30);
         return (1);
     }
+    
+    // Join philosopher threads first
     count = 0;
-    if(pthread_join(monitor_thread, NULL) != 0)
     while(count < info->number_of_philo)
     {
-        pthread_join((philos)[count].thr, NULL);
-            count++;
+        pthread_join(philos[count].thr, NULL);
+        count++;
     }
+    
+    // Then join monitor thread
+    if(pthread_join(monitor_thread, NULL) != 0)
+    {
+        write(2, "Error: monitor join failed\n", 27);
         return 1;
-    return (0);
+    }
+    
+    return (0);  // Success
 }

@@ -6,11 +6,21 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:41:12 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/30 01:41:58 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:54:12 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_header.h"
+
+int	is_die(t_info_of_each_philo *ph)
+{
+	int	end_flag;
+
+	pthread_mutex_lock(&ph->genr_info->protect);
+	end_flag = ph->genr_info->end;
+	pthread_mutex_unlock(&ph->genr_info->protect);
+	return (end_flag);
+}
 
 int	fuul_food(t_info_of_each_philo *ph)
 {
@@ -38,7 +48,6 @@ int	check_time_die(int i, t_info_of_each_philo *ph)
 
 	while (i < ph[0].genr_info->number_of_philo)
 	{
-		// lock
 		pthread_mutex_lock(&ph->genr_info->protect_meal);
 		now = get_current_time();
 		if (now - ph[i].last_meal_time > ph[i].genr_info->time_to_die)
@@ -49,13 +58,12 @@ int	check_time_die(int i, t_info_of_each_philo *ph)
 			pthread_mutex_unlock(&ph->genr_info->protect);
 			pthread_mutex_lock(&ph->genr_info->protect_printf);
 			time_stamp = get_current_time() - ph->genr_info->gen_time_start;
-			printf("%ld %d died\n", time_stamp, ph[i].ID);
+			printf("%ld %d died\n", time_stamp, ph[i].id);
 			pthread_mutex_unlock(&ph->genr_info->protect_printf);
 			return (1);
 		}
 		else
 			pthread_mutex_unlock(&ph->genr_info->protect_meal);
-		// unlock
 		i++;
 	}
 	return (0);
@@ -63,10 +71,10 @@ int	check_time_die(int i, t_info_of_each_philo *ph)
 
 void	*monitor(void *arg)
 {
-	t_info_of_each_philo *ph;
-	int i;
-	long now;
-	long time_stamp;
+	t_info_of_each_philo	*ph;
+	int						i;
+	long					now;
+	long					time_stamp;
 
 	ph = (t_info_of_each_philo *)arg;
 	while (1)

@@ -6,21 +6,11 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:41:52 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/30 02:12:24 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:54:01 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_header.h"
-
-int	is_die(t_info_of_each_philo *ph)
-{
-	int	end_flag;
-
-	pthread_mutex_lock(&ph->genr_info->protect);
-	end_flag = ph->genr_info->end;
-	pthread_mutex_unlock(&ph->genr_info->protect);
-	return (end_flag);
-}
 
 void	ft_print(t_info_of_each_philo *ph, char *s)
 {
@@ -35,9 +25,10 @@ void	ft_print(t_info_of_each_philo *ph, char *s)
 		pthread_mutex_unlock(&ph->genr_info->protect_printf);
 		return ;
 	}
-	printf("%ld %d %s\n", now, ph->ID, s);
+	printf("%ld %d %s\n", now, ph->id, s);
 	pthread_mutex_unlock(&ph->genr_info->protect_printf);
 }
+
 long	get_current_time(void)
 {
 	struct timeval	tv;
@@ -75,9 +66,8 @@ int	get_fork(t_info_of_each_philo *ph)
 
 	if (is_die(ph))
 		return (1);
-	if (ph->ID % 2 == 0)
+	if (ph->id % 2 == 0)
 	{
-		// Even: right first
 		pthread_mutex_lock(ph->right_fork);
 		ft_print(ph, "has taken a fork");
 		pthread_mutex_lock(ph->left_fork);
@@ -85,7 +75,6 @@ int	get_fork(t_info_of_each_philo *ph)
 	}
 	else
 	{
-		// Odd: left first
 		pthread_mutex_lock(ph->left_fork);
 		ft_print(ph, "has taken a fork");
 		pthread_mutex_lock(ph->right_fork);
@@ -93,6 +82,7 @@ int	get_fork(t_info_of_each_philo *ph)
 	}
 	return (0);
 }
+
 void	ft_usleep(t_info_of_each_philo *ph, int time)
 {
 	long	start;

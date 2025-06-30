@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 23:47:14 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/30 02:07:43 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:39:09 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	is_space(char c)
 {
 	return (c == 9 || c == 10 || c == 11 || c == 12 || c == 13 || c == 32);
 }
+
 int	ft_atoi(char *s)
 {
 	long	res;
@@ -44,6 +45,7 @@ int	ft_atoi(char *s)
 	}
 	return (res);
 }
+
 int	is_valide_arg(int num_of_arg, char **arg)
 {
 	int	count;

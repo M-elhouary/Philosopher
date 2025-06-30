@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:29 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/30 02:14:10 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:50:36 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_info
 
 typedef struct s_philo
 {
-	int				ID;
+	int				id;
 	int				eat_count;
 	pthread_t		thr;
 	pthread_mutex_t	*right_fork;
@@ -64,7 +64,8 @@ int					ft_think(t_info_of_each_philo *ph);
 int					get_fork(t_info_of_each_philo *ph);
 int					creat_join_th(t_info_of_each_philo *philos,
 						t_philo_info *info);
-int					initial(t_info_of_each_philo *philos, t_philo_info *info);
+int					initial_data(t_info_of_each_philo *philos,
+						t_philo_info *info);
 void				*monitor(void *arg);
 void				clean_mutex(t_info_of_each_philo *philos,
 						t_philo_info *info, int count);

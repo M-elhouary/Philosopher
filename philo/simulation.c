@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 22:35:45 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/30 01:33:43 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:51:17 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	ft_eat(t_info_of_each_philo *ph)
 	else
 		pthread_mutex_unlock(&ph->genr_info->protect_meal);
 	ft_usleep(ph, ph->genr_info->time_to_eat);
-	// usleep(ph->genr_info->time_to_eat * 1000);
 	pthread_mutex_unlock(ph->left_fork);
 	pthread_mutex_unlock(ph->right_fork);
 	return (0);
@@ -51,9 +50,9 @@ int	ft_sleep(t_info_of_each_philo *ph)
 	if (is_die(ph))
 		return (1);
 	ft_usleep(ph, ph->genr_info->time_to_sleep);
-	// usleep(ph->genr_info->time_to_sleep * 1000);
 	return (0);
 }
+
 int	ft_think(t_info_of_each_philo *ph)
 {
 	long	now;
@@ -64,6 +63,5 @@ int	ft_think(t_info_of_each_philo *ph)
 	if (is_die(ph))
 		return (1);
 	ft_usleep(ph, ph->genr_info->time_to_think);
-	// usleep(ph->genr_info->time_to_think * 1000);
 	return (0);
 }

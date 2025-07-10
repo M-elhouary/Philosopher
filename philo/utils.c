@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:41:52 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/30 18:54:01 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/07/03 03:47:16 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,11 @@ void	ft_usleep(t_info_of_each_philo *ph, int time)
 	long	start;
 	long	now;
 
-	start = get_current_time();
-	while (1)
+	if (ph->genr_info->time_to_eat > ph->genr_info->time_to_die
+		|| ph->genr_info->time_to_sleep > ph->genr_info->time_to_die)
 	{
-		if (is_die(ph))
-			break ;
-		now = get_current_time();
-		if (now - start >= time)
-			break ;
-		usleep(100);
+		usleep(ph->genr_info->time_to_die * 1000);
+		return ;
 	}
+	usleep(time * 1000);
 }

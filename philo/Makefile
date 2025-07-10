@@ -1,34 +1,24 @@
 NAME = philo
 
-	CC = cc
+CC = cc
 
-		FLAGS = -Wall - Wextra - Werror
+FLAGS = -Wall -Wextra -Werror
 
-										SRC = check_validation_of_arg.c
-												main_philo.c
-													utils.c
-														creat.c
-															fill_and_initial.c
-																monitor.c
-																	simulation.c
+SRC = check_validation_of_arg.c main_philo.c utils.c creat.c fill_and_initial.c monitor.c simulation.c
 
-																		OBJ = $(SRC
-																				:.c =.o)
+OBJ = $(SRC:.c=.o)
 
-																					all : $(NAME)
+all: $(NAME)
 
-																							$(NAME)
-	: $(OBJ)
-			$(CC) $(FLAGS) $(OBJ) -
-		o $(NAME)
+$(NAME): $(OBJ)
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME)
 
-			clean : rm -
-					rf $(OBJ)
+clean:
+	rm -rf $(OBJ)
 
-						fclean : clean
-									rm -
-								rf $(NAME)
+fclean: clean
+	rm -rf $(NAME)
 
-									re : fclean all
+re: fclean all
 
-											.PHONY : all clean fclean re
+.PHONY: all clean fclean re

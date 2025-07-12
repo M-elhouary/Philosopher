@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:40:45 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/07/04 20:41:14 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:14:42 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,11 @@ int	creat_join_th(t_info_of_each_philo *philos, t_philo_info *info)
 		count++;
 	}
 	if (philos->genr_info->number_of_rep == 0)
-		return (clean_mutex(philos, info, philos->genr_info->number_of_philo), 1);
+	{
+		pthread_detach(monitor_thread);
+		return (clean_mutex(philos, info, philos->genr_info->number_of_philo),
+			1);
+	}
 	if (pthread_join(monitor_thread, NULL) != 0)
 		return (write(2, "Error: monitor join failed\n", 27), 1);
 	return (0);

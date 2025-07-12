@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/07/03 03:50:03 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/07/12 14:18:30 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	one_philo(t_info_of_each_philo *ph)
 {
-	if (ph->genr_info->number_of_philo == 1)
+	if (ph->genr_info->number_of_philo == 1
+		&& ph->genr_info->number_of_rep != 0)
 	{
 		pthread_mutex_lock(ph->left_fork);
 		ft_print(ph, "has taken a fork");

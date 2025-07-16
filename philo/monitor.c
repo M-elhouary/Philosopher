@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:41:12 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/06/30 18:54:12 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/07/16 23:57:22 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	*monitor(void *arg)
 	long					time_stamp;
 
 	ph = (t_info_of_each_philo *)arg;
+	if (ph->genr_info->number_of_rep == 0)
+		return (NULL);
 	while (1)
 	{
 		i = 0;

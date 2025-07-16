@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:40:19 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/07/12 14:18:30 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/07/17 00:01:45 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int ac, char **av)
 		if (initial_data(philos, &info))
 			return (free(info.forks), free(philos), 1);
 		if (creat_join_th(philos, &info))
-			return (1);
+			return (clean_mutex(philos, &info, info.number_of_philo), 1);
 		clean_mutex(philos, &info, info.number_of_philo);
 	}
 	return (0);

@@ -4,7 +4,7 @@ CC = cc
 
 FLAGS = -Wall -Wextra -Werror
 
-SRC = check_validation_of_arg.c main_philo.c utils.c creat.c fill_and_initial.c monitor.c simulation.c
+SRC = parse_arg.c main_philo.c utils.c creat_thread.c initial_data.c monitor.c simulation.c
 
 OBJ = $(SRC:.c=.o)
 

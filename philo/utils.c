@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:41:52 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/07/12 14:34:40 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:44:22 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ int	get_fork(t_info_of_each_philo *ph)
 
 void	ft_usleep(t_info_of_each_philo *ph, int time)
 {
-	long	start;
-	long	now;
 
 	if (ph->genr_info->time_to_eat > ph->genr_info->time_to_die
 		|| ph->genr_info->time_to_sleep > ph->genr_info->time_to_die)

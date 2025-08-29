@@ -6,7 +6,7 @@
 /*   By: mel-houa <mel-houa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 21:41:12 by mel-houa          #+#    #+#             */
-/*   Updated: 2025/07/16 23:57:22 by mel-houa         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:48:30 by mel-houa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	check_time_die(int i, t_info_of_each_philo *ph)
 	{
 		pthread_mutex_lock(&ph->genr_info->protect_meal);
 		now = get_current_time();
-		if (now - ph[i].last_meal_time > ph[i].genr_info->time_to_die)
+		if (now - ph[i].last_meal_time >= ph[i].genr_info->time_to_die)
 		{
 			pthread_mutex_lock(&ph->genr_info->protect);
 			pthread_mutex_unlock(&ph->genr_info->protect_meal);
